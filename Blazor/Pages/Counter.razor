@@ -1,0 +1,101 @@
+﻿@page "/Counter"
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
+@using System.Linq;
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfPivotView ID="PivotView" TValue="ProductDetails" @ref="pivot" ShowFieldList="true" ShowToolbar="true" AllowConditionalFormatting="true" AllowPdfExport="true" AllowExcelExport="true" AllowCalculatedField="true">
+            <PivotViewDataSourceSettings DataSource="@dataSource" ExpandAll="false" AllowLabelFilter="true" AllowMemberFilter="true" AllowValueFilter="true" EnableSorting="true" ShowSubTotals="false" ShowHeaderWhenEmpty="false">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                    <PivotViewValue Name="Total" Caption="Total Amount" Type=SummaryTypes.CalculatedField></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewCalculatedFieldSettings>
+                    <PivotViewCalculatedFieldSetting Name="Total" Formula="@totalPrice"></PivotViewCalculatedFieldSetting>
+                </PivotViewCalculatedFieldSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewEvents TValue="ProductDetails" EnginePopulated="enginePopulated"></PivotViewEvents>
+        </SfPivotView>
+    </div>
+</div>
+<style>
+    .e-pivotview {
+    min-height: 200px;
+    }
+</style>
+@code {
+    public List<ProductDetails> dataSource { get; set; }
+    SfPivotView<ProductDetails> pivot;
+    public string totalPrice = "\"" + "Sum(Amount)" + "\"" + "+" + "\"" + "Sum(Sold)" + "\"";
+    protected override void OnInitialized()
+    {
+        this.dataSource = ProductDetails.GetProductData();
+    }
+
+    public void enginePopulated(EnginePopulatedEventArgs args)
+    {
+        double soldValue = 0;
+        double amountValue = 0;
+
+        for (var i = 0; i < args.PivotValues.Count(); i++)
+        {
+            var rowData = args.PivotValues[i];
+            for (var j = 0; rowData != null && j < rowData.Count(); j++)
+            {
+                var cellData = args.PivotValues[i][j];
+                if (cellData != null  && cellData.ActualText != null && cellData.Axis == "value")
+                {
+                    if (cellData.ActualText.ToString() == "Sold" && cellData.Value != null)
+                    {
+                        soldValue = Convert.ToDouble(cellData.Value);
+                    }
+                    else if (cellData.ActualText.ToString() == "Amount" && cellData.Value != null)
+                    {
+                        amountValue = Convert.ToDouble(cellData.Value);
+                    }
+
+                    // Check for the Total cell
+                    if (cellData.ActualText.ToString() == "Total")
+                    {
+                        if (soldValue + amountValue != 0) // Avoid division by zero
+                        {
+                            double totalValue = (soldValue / (soldValue + amountValue)) * 100;
+                            cellData.Value = totalValue;
+                            cellData.FormattedText = totalValue.ToString("F2") + " %"; // Set formatted text
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    public class ProductDetails
+    {
+        public int Sold { get; set; }
+        public double Amount { get; set; }
+        public string Country { get; set; }
+        public string Products { get; set; }
+        public string Year { get; set; }
+        public string Quarter { get; set; }
+
+        public static List<ProductDetails> GetProductData()
+        {
+            List<ProductDetails> productData = new List<ProductDetails>();
+            productData.Add(new ProductDetails { Sold = 31, Amount = 60, Country = "France", Products = "Mountain Bikes", Year = "FY 2015", Quarter = "Q1" });
+            productData.Add(new ProductDetails { Sold = 51, Amount = 70, Country = "France", Products = "Mountain Bikes", Year = "FY 2016", Quarter = "Q2" });
+            productData.Add(new ProductDetails { Sold = 90, Amount = 56, Country = "Germany", Products = "Mountain Bikes", Year = "FY 2015", Quarter = "Q3" });
+            productData.Add(new ProductDetails { Sold = 25, Amount = 78, Country = "Germany", Products = "Mountain Bikes", Year = "FY 2016", Quarter = "Q4" });
+            return productData;
+        }
+    }
+}

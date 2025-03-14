@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Syncfusion.Blazor.Layouts" Version="28.2.9" />
+    <PackageReference Include="Syncfusion.Blazor.PivotTable" Version="28.2.9" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="28.2.9" />
+  </ItemGroup>
+</Project>

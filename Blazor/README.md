@@ -14,7 +14,7 @@ Ensure you have the following installed:
 
 2. Dependent packages will be automatically downloaded from nuget.org.
 
-3. Update the `PivotViewDataSourceSettings` in the `Index.razor` file:
+3. Update the `PivotViewDataSourceSettings` in the `Home.razor` file:
    - Replace `Url` with your SSAS server endpoint.
    - Replace `Catalog` with your SSAS database name.
    - Replace `Cube` with your Multidimensional model name.

@@ -11,10 +11,10 @@ This repository provides examples of integrating SQL Server Analysis Services (S
 
 ### JavaScript Example
 - Navigate to the `JavaScript` directory.
-- Follow the instructions in the `README.md` file within that folder to set up and run the JavaScript sample.
+- Follow the [instructions](../integrating-syncfusion-pivot-table-with-ssas/JavaScript/README.md) provided to set up and run the JavaScript sample.
 
 ### Blazor Example
 - Navigate to the `Blazor` directory.
-- Follow the instructions in the `README.md` file within that folder to set up and run the Blazor sample.
+- Refer to the [setup instructions](../integrating-syncfusion-pivot-table-with-ssas/Blazor/README.md) to configure and run the Blazor sample.
 
 Each sample comes with specific prerequisites and setup instructions tailored to its framework, ensuring a smooth integration process. Explore each directory for detailed guidance on how to get the examples up and running.

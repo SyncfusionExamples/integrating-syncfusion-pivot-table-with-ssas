@@ -1,0 +1,21 @@
+﻿@page "/"
+@using Syncfusion.Blazor.PivotView
+<SfPivotView TValue="object" Width="800" Height="350" ShowFieldList="true">
+    @* Replace `Url` with the endpoint of your SSAS server, `Catalog` with the name of your SSAS database, and `Cube` with the name of your Multidimensional model. *@
+    <PivotViewDataSourceSettings TValue="object" Url="http://localhost:54321" ProviderType="ProviderType.SSAS" Catalog="AdventureWorksDW" Cube="SalesCube">
+        <PivotViewColumns>
+            <PivotViewColumn Name="[Product].[Product Categories].[Category]" Caption="Product Category"></PivotViewColumn>
+        </PivotViewColumns>
+        <PivotViewRows>
+            <PivotViewRow Name="[Date].[Fiscal].[Fiscal Year]" Caption="Fiscal Year"></PivotViewRow>
+        </PivotViewRows>
+        <PivotViewValues>
+            <PivotViewValue Name="[Measures].[Internet Sales Amount]" Caption="Total Sales"></PivotViewValue>
+        </PivotViewValues>
+    </PivotViewDataSourceSettings>
+    <PivotViewGridSettings ColumnWidth="160"></PivotViewGridSettings>
+</SfPivotView>
+
+@code {
+    // No additional code required for basic SSAS integration
+}
